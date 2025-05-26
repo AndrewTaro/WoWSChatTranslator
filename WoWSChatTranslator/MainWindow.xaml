@@ -4,13 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WoWSChatTranslator"
+        xmlns:vm="clr-namespace:WoWSChatTranslator.ViewModels"
         mc:Ignorable="d"
         Title="WoWS Chat Translator" Height="400" Width="600">
-    <Grid>
-        <StackPanel>
-            <TextBox Name="InputTextBox" Height="30" Margin="0,0,0,10" />
-            <Button Name="TranslateButton" Content="翻訳" Height="30" Click="TranslateButton_Click" />
-            <TextBlock Name="OutputTextBlock" Text="翻訳結果がここに表示されます" Margin="0,10,0,0"/>
-        </StackPanel>
-    </Grid>
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <StackPanel Margin="10">
+        <TextBlock Text="DeepL API Key"/>
+        <TextBox Text="{Binding ApiKey}" Height="25"/>
+        <TextBlock Text="Translate to"/>
+        <ComboBox ItemsSource="{Binding TargetLanguageCodes}" 
+                  SelectedItem="{Binding TargetLangCode}" 
+                  Height="25"/>
+        <Button Content="Save and Start" Command="{Binding SaveAndStartCommand}" Height="30" Margin="0,10,0,0"/>
+        <TextBlock Text="{Binding Status}" Foreground="Blue" Margin="0,10,0,0"/>
+    </StackPanel>
 </Window>
