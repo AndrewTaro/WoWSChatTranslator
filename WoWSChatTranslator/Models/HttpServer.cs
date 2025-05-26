@@ -14,6 +14,7 @@ namespace WoWSChatTranslator.Models
         private readonly HttpListener _listener;
         private readonly Translator _translator;
         private readonly UserSettings _settings;
+        public bool IsRunning => _listener.IsListening;
 
         public HttpServer(Translator translator, UserSettings settings)
         {
@@ -25,11 +26,23 @@ namespace WoWSChatTranslator.Models
 
         public async Task StartAsync()
         {
+            if (_translator.ClientState != DeepLClientState.Initialized)
+            {
+                throw new InvalidOperationException("Translator is not initialized. Please set the API key and initialize the translator first.");
+            }
             _listener.Start();
             while (true)
             {
-                var context = await _listener.GetContextAsync();
-                HandleRequest(context);
+                try
+                {
+                    var context = await _listener.GetContextAsync();
+                    HandleRequest(context);
+                }
+                catch (Exception)
+                {
+                    
+                }
+                
             }
         }
 

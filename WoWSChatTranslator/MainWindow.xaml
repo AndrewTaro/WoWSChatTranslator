@@ -3,13 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:WoWSChatTranslator"
         xmlns:vm="clr-namespace:WoWSChatTranslator.ViewModels"
+        xmlns:view="clr-namespace:WoWSChatTranslator.View"
         mc:Ignorable="d"
         Title="WoWS Chat Translator" Height="400" Width="600">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
+    <i:Interaction.Behaviors>
+        <view:WindowBehaivor />
+    </i:Interaction.Behaviors>
     <StackPanel Margin="10">
         <TextBlock Text="DeepL API Key"/>
         <TextBox Text="{Binding ApiKey}" Height="25"/>
@@ -17,7 +22,12 @@
         <ComboBox ItemsSource="{Binding TargetLanguageCodes}" 
                   SelectedItem="{Binding TargetLangCode}" 
                   Height="25"/>
-        <Button Content="Save and Start" Command="{Binding SaveAndStartCommand}" Height="30" Margin="0,10,0,0"/>
-        <TextBlock Text="{Binding Status}" Foreground="Blue" Margin="0,10,0,0"/>
+        <Button Content="{Binding ControlButtonName}" Command="{Binding ControlCommand}" Height="30" Margin="0,10,0,0" IsEnabled="{Binding IsControlButtonEnabled}"/>
+        <TextBox Text="{Binding LogText}" 
+                 Height="200" 
+                 Margin="0,10,0,0" 
+                 AcceptsReturn="True" 
+                 IsEnabled="False"
+                 VerticalScrollBarVisibility="Auto"/>
     </StackPanel>
 </Window>
