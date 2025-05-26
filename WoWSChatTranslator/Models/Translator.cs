@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DeepL;
 using DeepL.Model;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.CodeDom.Compiler;
 
 namespace WoWSChatTranslator.Models
 {
@@ -20,7 +23,7 @@ namespace WoWSChatTranslator.Models
 
         public DeepLClientState ClientState {  get; private set; }
 
-        public static List<string> SupportedLanguageCodes { get; private set; } = InitializeSupportedLanguageCodes();
+        public static List<LanguageOption> AvailableLanguageCodes { get; private set; } = InitializeAvailableLanguageOptions();
 
         public async Task<DeepLClientState> InitializeAsync(string apiKey)
         {
@@ -67,10 +70,10 @@ namespace WoWSChatTranslator.Models
             return result.Text;
         }
 
-        private static List<string> InitializeSupportedLanguageCodes()
+        private static List<LanguageOption> InitializeAvailableLanguageOptions()
         {
             // Clear existing items
-            List<string> languageCodes = new List<string>();
+            List<LanguageOption> languageOptions = new List<LanguageOption>();
 
             // Use reflection to get all public static fields of the LanguageCode class
             var fields = typeof(LanguageCode).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
@@ -82,16 +85,30 @@ namespace WoWSChatTranslator.Models
                     continue; // Skip unavailable languages
                 }
                 // Get the field name and value
+                var name = field.Name; // Field name
                 var value = field.GetValue(null); // Field value (static fields don't require an instance)
-                if (value != null)
+                if (value != null && value?.ToString() is string code)
                 {
                     // Add the name and value to the ComboBox
-                    var code = value?.ToString();
-                    languageCodes.Add(code ?? "Invalid Language Code");
+                    languageOptions.Add(new LanguageOption(name, code));
                 }
             }
-            return languageCodes;
+            return languageOptions;
         }
+    }
+
+    public partial class LanguageOption
+    {
+        [GeneratedRegex(@"(?<=[A-Z])(?=[A-Z][a-z])|(?<=[^A-Z])(?=[A-Z])|(?<=[0-9])(?=[^A-Z0-9])|(?=[0-9])(?<=[^0-9])|(?<=[^A-Za-z0-9])(?=[a-z])|(?=[^A-Za-z0-9])(?<=[A-Za-z])")]
+        private static partial Regex GetRegex();
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public LanguageOption(string name, string code)
+        {
+            Code = code;
+            Name = string.Join(" ", GetRegex().Split(name));
+        }
+        public override string ToString() => $"{Name} ({Code})";
     }
 
     public enum DeepLClientState

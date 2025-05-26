@@ -15,14 +15,31 @@
     <i:Interaction.Behaviors>
         <view:WindowBehaivor />
     </i:Interaction.Behaviors>
+    
     <StackPanel Margin="10">
-        <TextBlock Text="DeepL API Key"/>
-        <TextBox Text="{Binding ApiKey}" Height="25"/>
-        <TextBlock Text="Translate to"/>
-        <ComboBox ItemsSource="{Binding TargetLanguageCodes}" 
-                  SelectedItem="{Binding TargetLangCode}" 
-                  Height="25"/>
+        <!-- Title -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="WoWS Chat Translator" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"/>
+            <!--Image Source="/WoWSChatTranslator;component/Resources/Images/logo.png" Height="30"/-->
+        </StackPanel>
+        
+        <!-- API Key-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <TextBlock Text="DeepL API Key" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" Margin="5,0,5,0"/>
+            <Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/>
+        </StackPanel>
+        
+        <!-- Language Selection -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <TextBlock Text="Translate to" Margin="0,0,5,0" VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding AvailableLanguageCodes}" SelectedValue="{Binding TargetLangCode}" HorizontalContentAlignment="Center" SelectedValuePath="Code" DisplayMemberPath="Name" VerticalAlignment="Center" Height="25" Width="200"/>
+        </StackPanel>
+        
+        <!-- Control Button -->
         <Button Content="{Binding ControlButtonName}" Command="{Binding ControlCommand}" Height="30" Margin="0,10,0,0" IsEnabled="{Binding IsControlButtonEnabled}"/>
+        
+        <!-- Status Log -->
         <TextBox Text="{Binding LogText}" 
                  Height="200" 
                  Margin="0,10,0,0" 

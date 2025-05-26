@@ -99,15 +99,18 @@ namespace WoWSChatTranslator.ViewModels
             }
         });
 
-        public ObservableCollection<string> TargetLanguageCodes { get; } = new ObservableCollection<string>(Translator.SupportedLanguageCodes);
+        public ObservableCollection<LanguageOption> AvailableLanguageCodes { get; } = new ObservableCollection<LanguageOption>(Translator.AvailableLanguageCodes);
 
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
+
+        public ICommand SaveApiKeyCommand { get; }
 
         public MainViewModel()
         {
             StartCommand = new RelayCommand(async () => await StartAsync());
             StopCommand = new RelayCommand(Stop);
+            SaveApiKeyCommand = new RelayCommand(SaveApiKey);
         }
 
         private async Task StartAsync()
@@ -139,6 +142,11 @@ namespace WoWSChatTranslator.ViewModels
             }
             IsControlButtonEnabled = true;
 
+        }
+
+        private void SaveApiKey()
+        {
+            ApiKeyManager.SaveApiKey();
         }
 
         private void Stop()
