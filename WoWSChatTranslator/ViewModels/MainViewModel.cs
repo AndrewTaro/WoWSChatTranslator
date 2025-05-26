@@ -82,15 +82,11 @@ namespace WoWSChatTranslator.ViewModels
             get => _isControlButtonEnabled;
             private set
             {
-                if (Status == StatusCode.Auhtorizing || Status == StatusCode.NotInitialized || Status == StatusCode.NetworkError || Status == StatusCode.AuthorizationError || Status == StatusCode.LimitReached || Status == StatusCode.Unkwnon)
+                if (_isControlButtonEnabled != value)
                 {
-                    _isControlButtonEnabled = false;
+                    _isControlButtonEnabled = value;
+                    OnPropertyChanged(nameof(IsControlButtonEnabled));
                 }
-                else
-                {
-                    _isControlButtonEnabled = true; // Default to enabled if no specific status
-                }
-                OnPropertyChanged(nameof(IsControlButtonEnabled));
             }
         }
 
@@ -117,6 +113,7 @@ namespace WoWSChatTranslator.ViewModels
         private async Task StartAsync()
         {
             IsControlButtonEnabled = false;
+            Status = StatusCode.Auhtorizing;
             switch (await Translator.InitializeAsync(ApiKey))
             {
                 case DeepLClientState.Initialized:
