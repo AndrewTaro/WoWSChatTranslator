@@ -39,22 +39,18 @@ namespace WoWSChatTranslator.ViewModels
             set { _logText = value; OnPropertyChanged(nameof(LogText)); }
         }
 
+        private bool _isServerRunning = false;
         public bool IsServerRunning
         {
-            get => _server != null && _server.IsRunning;
+            get => _isServerRunning;
             set
             {
-                // Toggle server state based on the value
-                if (value && _server == null)
+                if (_isServerRunning != value)
                 {
-                    StartCommand.Execute(null);
+                    _isServerRunning = value;
+                    OnPropertyChanged(nameof(IsServerRunning));
+                    OnPropertyChanged(nameof(ControlButtonName));
                 }
-                else if (!value && _server != null)
-                {
-                    StopCommand.Execute(null);
-                }
-                OnPropertyChanged(nameof(IsServerRunning));
-                OnPropertyChanged(nameof(ControlButtonName));
             }
         }
 
@@ -79,27 +75,32 @@ namespace WoWSChatTranslator.ViewModels
             }
         }
 
-        public ICommand ControlCommand { get; } = new RelayCommand(() =>
-        {
-            // This command is used to toggle the server state
-            if (App.Current.MainWindow.DataContext is MainViewModel viewModel)
-            {
-                viewModel.IsServerRunning = !viewModel.IsServerRunning;
-            }
-        });
-
         public ObservableCollection<LanguageOption> AvailableLanguageCodes { get; } = new ObservableCollection<LanguageOption>(Translator.AvailableLanguageCodes);
 
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
 
         public ICommand SaveApiKeyCommand { get; }
+        public ICommand ControlCommand { get; }
 
         public MainViewModel()
         {
             StartCommand = new RelayCommand(async () => await StartAsync());
             StopCommand = new RelayCommand(Stop);
             SaveApiKeyCommand = new RelayCommand(SaveApiKey);
+            ControlCommand = new RelayCommand(ExecuteControlCommand);
+        }
+
+        private void ExecuteControlCommand()
+        {
+            if (IsServerRunning)
+            {
+                StopCommand.Execute(null);
+            }
+            else
+            {
+                StartCommand.Execute(null);
+            }
         }
 
         private async Task StartAsync()
@@ -113,6 +114,10 @@ namespace WoWSChatTranslator.ViewModels
                     logText = StatusCode.Initialized;
                     _server = new HttpServer(Translator, Settings);
                     _ = _server.StartAsync();
+                    Log("Status: Server started.");
+
+                    IsServerRunning = true;
+
                     break;
                 case DeepLClientState.ConnectionError:
                     logText = StatusCode.NetworkError;
@@ -143,6 +148,7 @@ namespace WoWSChatTranslator.ViewModels
         {
             _server?.Stop();
             _server = null;
+            IsServerRunning = false;
             Log("Status: Server stopped.");
         }
 
