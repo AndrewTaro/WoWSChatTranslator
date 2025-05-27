@@ -429,7 +429,7 @@
         <!-- Status Log -->
         <TextBox Text="{Binding LogText}" 
                  Style="{StaticResource RoundTextBox}"
-                 Height="200" 
+                 Height="180" 
                  Margin="0,10,0,0" 
                  AcceptsReturn="True" 
                  Foreground="{StaticResource DefaultText}"
