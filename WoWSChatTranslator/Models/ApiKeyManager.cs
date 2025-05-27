@@ -7,7 +7,7 @@ using CredentialManagement;
 using DeepL;
 using Microsoft.Extensions.Options;
 
-namespace WoWSChatTranslator.Model
+namespace WoWSChatTranslator.Models
 {
     public class ApiKeyManager
     {

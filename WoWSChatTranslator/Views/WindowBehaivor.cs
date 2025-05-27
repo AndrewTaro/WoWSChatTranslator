@@ -7,7 +7,7 @@ using Microsoft.Xaml.Behaviors;
 using System.Windows;
 using WoWSChatTranslator.ViewModels;
 
-namespace WoWSChatTranslator.View
+namespace WoWSChatTranslator.Views
 {
     class WindowBehaivor: Behavior<Window>
     {

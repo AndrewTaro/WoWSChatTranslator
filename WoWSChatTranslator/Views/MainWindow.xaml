@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:WoWSChatTranslator"
         xmlns:vm="clr-namespace:WoWSChatTranslator.ViewModels"
-        xmlns:view="clr-namespace:WoWSChatTranslator.View"
+        xmlns:view="clr-namespace:WoWSChatTranslator.Views"
         mc:Ignorable="d"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize"
@@ -204,7 +204,7 @@
         <!-- API Key-->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
             <TextBlock Text="DeepL API Key" VerticalAlignment="Center" Foreground="{StaticResource DefaultText}"/>
-            <TextBox Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,0,0,0" IsEnabled="{Binding IsServerRunning}"
+            <TextBox Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,0,0,0" IsEnabled="{Binding IsServerRunning, Converter={StaticResource InverseBooleanConverter}}"
                      Background="{StaticResource EditableControlBackgroundBrush}" Foreground="{StaticResource DefaultText}" BorderBrush="{StaticResource NormalBorderBrush}"
             />
             <!--Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/-->

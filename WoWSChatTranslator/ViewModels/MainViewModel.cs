@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WoWSChatTranslator.Commands;
-using WoWSChatTranslator.Model;
 using WoWSChatTranslator.Models;
 
 namespace WoWSChatTranslator.ViewModels
