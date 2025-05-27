@@ -22,6 +22,10 @@ namespace WoWSChatTranslator.Model
             {
                 ApiKey = apiKey;
             }
+            else
+            {
+                LoadApiKey(); // Try to load the API key from Windows Credential Manager
+            }
         }
 
         public bool LoadApiKey()

@@ -26,8 +26,8 @@
         <!-- API Key-->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
             <TextBlock Text="DeepL API Key" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" Margin="5,0,5,0"/>
-            <Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/>
+            <TextBox Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
+            <!--Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/-->
         </StackPanel>
         
         <!-- Language Selection -->
@@ -37,7 +37,7 @@
         </StackPanel>
         
         <!-- Control Button -->
-        <Button Content="{Binding ControlButtonName}" Command="{Binding ControlCommand}" Height="30" Margin="0,10,0,0" IsEnabled="{Binding IsControlButtonEnabled}"/>
+        <Button Content="{Binding ControlButtonName}" Command="{Binding ControlCommand}" TabIndex="0" Height="30" Margin="0,10,0,0" FontWeight="Bold" IsEnabled="{Binding IsControlButtonEnabled}"/>
         
         <!-- Status Log -->
         <TextBox Text="{Binding LogText}" 

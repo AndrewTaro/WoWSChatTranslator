@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DeepL;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace WoWSChatTranslator.Models
 {
@@ -15,16 +16,18 @@ namespace WoWSChatTranslator.Models
         private readonly HttpListener _listener;
         private readonly Translator _translator;
         private readonly UserSettings _settings;
+        private readonly Action<string>? _log;
         private CancellationTokenSource? _cancellationTokenSource;
         private bool _isRunning = false;
-        public bool IsRunning => _listener.IsListening;
+        public bool IsRunning => _listener.IsListening && _isRunning;
 
-        public HttpServer(Translator translator, UserSettings settings)
+        public HttpServer(Translator translator, UserSettings settings, Action<string>? log = null)
         {
             _listener = new HttpListener();
             _listener.Prefixes.Add(settings.TargetUrl);
             _translator = translator;
             _settings = settings;
+            _log = log;
         }
 
         public async Task StartAsync()
@@ -74,7 +77,17 @@ namespace WoWSChatTranslator.Models
             string? translated = null;
             if (request.QueryString["text"] is string text && !string.IsNullOrWhiteSpace(text))
             {
+                Log($"Received: {text}");
                 translated = await _translator.TranslateAsync(text, _settings.TargetLangCode);
+                if (string.IsNullOrEmpty(translated) || translated == text)
+                {
+                    translated = null; // No translation needed or no change
+                    Log("Skipping: No translation needed or no change detected.");
+                }
+                else
+                {
+                    Log($"Translated: {translated}");
+                }
             }
 
             byte[] buffer = Encoding.UTF8.GetBytes(translated ?? "");
@@ -92,6 +105,11 @@ namespace WoWSChatTranslator.Models
             _cancellationTokenSource?.Cancel();
             _listener.Stop();
             _isRunning = false;
+        }
+
+        private void Log(string message)
+        {
+            _log?.Invoke(message);
         }
     }
 }

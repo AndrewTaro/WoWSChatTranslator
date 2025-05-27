@@ -74,6 +74,7 @@ namespace WoWSChatTranslator.ViewModels
                 {
                     _isControlButtonEnabled = value;
                     OnPropertyChanged(nameof(IsControlButtonEnabled));
+                    OnPropertyChanged(nameof(ControlButtonName));
                 }
             }
         }
@@ -131,7 +132,6 @@ namespace WoWSChatTranslator.ViewModels
             }
             Log($"Status: {logText}");
             IsControlButtonEnabled = true;
-
         }
 
         private void SaveApiKey()
