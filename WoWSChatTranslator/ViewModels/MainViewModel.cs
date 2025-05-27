@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,19 +19,6 @@ namespace WoWSChatTranslator.ViewModels
         public ApiKeyManager ApiKeyManager { get; private set; } = new ApiKeyManager();
         public Translator Translator { get; } = new Translator();
         private HttpServer? _server;
-
-        private string _status = StatusCode.NotInitialized;
-        public string Status
-        {
-            get => _status;
-            set
-            {
-                _status = value;
-                Log($"Status: {value}");
-                OnPropertyChanged(nameof(Status)); 
-                OnPropertyChanged(nameof(IsControlButtonEnabled));
-            }
-        }
 
         public string ApiKey
         {
@@ -116,30 +104,32 @@ namespace WoWSChatTranslator.ViewModels
         private async Task StartAsync()
         {
             IsControlButtonEnabled = false;
-            Status = StatusCode.Auhtorizing;
+            Log($"Status: {StatusCode.Auhtorizing}");
+            string logText = "";
             switch (await Translator.InitializeAsync(ApiKey))
             {
                 case DeepLClientState.Initialized:
-                    Status = StatusCode.Initialized;
+                    logText = StatusCode.Initialized;
                     _server = new HttpServer(Translator, Settings);
-                    await Task.Run(() => _server.StartAsync());
+                    _ = _server.StartAsync();
                     break;
                 case DeepLClientState.ConnectionError:
-                    Status = StatusCode.NetworkError;
+                    logText = StatusCode.NetworkError;
                     break;
                 case DeepLClientState.AuthorizationError:
-                    Status = StatusCode.AuthorizationError;
+                    logText = StatusCode.AuthorizationError;
                     break;
                 case DeepLClientState.LimitReached:
-                    Status = StatusCode.LimitReached;
+                    logText = StatusCode.LimitReached;
                     break;
                 case DeepLClientState.NotInitialized:
-                    Status = StatusCode.NotInitialized;
+                    logText = StatusCode.NotInitialized;
                     break;
                 default:
-                    Status = StatusCode.Unkwnon;
+                    logText = StatusCode.Unkwnon;
                     break;
             }
+            Log($"Status: {logText}");
             IsControlButtonEnabled = true;
 
         }
@@ -153,7 +143,7 @@ namespace WoWSChatTranslator.ViewModels
         {
             _server?.Stop();
             _server = null;
-            Status = "Server stopped.";
+            Log("Status: Server stopped.");
         }
 
         public void SaveSettings()

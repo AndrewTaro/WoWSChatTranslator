@@ -44,7 +44,8 @@
                  Height="200" 
                  Margin="0,10,0,0" 
                  AcceptsReturn="True" 
-                 IsEnabled="False"
+                 Background="LightGray"
+                 Focusable="False"
                  VerticalScrollBarVisibility="Auto"/>
     </StackPanel>
 </Window>
