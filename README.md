@@ -3,11 +3,12 @@ This application imports the chat messages from World of Warships, and sends bac
 It is intended to use along side of [TTaro Chat](https://github.com/AndrewTaro/TTaroChat).
 
 - The settings, such as selected language, API key, etc, will be automatically saved in your local computer.
-- The API key is stored in your Windows Credential Manager. The rest of the preferences are saved in `userSettings.json` in the same directory as the `.exe`.
+  - The API key is stored in Windows Credential Manager.
+  - The rest of the preferences are saved in `userSettings.json` in the same directory as the `.exe`.
 
 # Requirements
 You must install the mod in World of Warships.
-- [TTaro Chat](https://github.com/AndrewTaro/TTaroChat).
+- [TTaro Chat](https://github.com/AndrewTaro/TTaroChat)
 
 You also need an API key from DeepL.
 - The free plan is sufficient for chat translations (500,000 characters per month).
