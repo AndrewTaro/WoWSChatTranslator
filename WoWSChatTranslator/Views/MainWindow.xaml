@@ -415,7 +415,7 @@
             <TextBlock Text="Translate to" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource DefaultText}"/>
             <ComboBox ItemsSource="{Binding AvailableLanguageCodes}" SelectedValue="{Binding TargetLangCode}"
                 Foreground="{StaticResource DefaultText}" Style="{StaticResource ComboBoxLanguage}" Background="{StaticResource WindowBackgroundBrush}"
-                HorizontalContentAlignment="Center" SelectedValuePath="Code" DisplayMemberPath="Name" VerticalAlignment="Center" Height="25" Width="200"
+                HorizontalContentAlignment="Center" SelectedValuePath="Code" DisplayMemberPath="Name" VerticalAlignment="Center" Height="25" Width="200" Margin="20,0,0,0"
             />
         </StackPanel>
 
