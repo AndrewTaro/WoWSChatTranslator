@@ -8,6 +8,7 @@
         xmlns:vm="clr-namespace:WoWSChatTranslator.ViewModels"
         xmlns:view="clr-namespace:WoWSChatTranslator.Views"
         xmlns:help="clr-namespace:WoWSChatTranslator.Helpers"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize"
@@ -23,7 +24,7 @@
         <help:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 
         <!-- Fill Brushes -->
-        
+
 
         <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -34,38 +35,11 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
-        <LinearGradientBrush x:Key="HorizontalNormalBrush" StartPoint="0,0" EndPoint="1,0">
+        <LinearGradientBrush x:Key="MouseOverBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
-                    <GradientStop Color="#FFF" Offset="0.0"/>
-                    <GradientStop Color="#CCC" Offset="1.0"/>
-                </GradientStopCollection>
-            </GradientBrush.GradientStops>
-        </LinearGradientBrush>
-
-        <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
-            <GradientBrush.GradientStops>
-                <GradientStopCollection>
-                    <GradientStop Color="#FFF" Offset="0.0"/>
-                    <GradientStop Color="#EEE" Offset="1.0"/>
-                </GradientStopCollection>
-            </GradientBrush.GradientStops>
-        </LinearGradientBrush>
-
-        <LinearGradientBrush x:Key="HorizontalLightBrush" StartPoint="0,0" EndPoint="1,0">
-            <GradientBrush.GradientStops>
-                <GradientStopCollection>
-                    <GradientStop Color="#FFF" Offset="0.0"/>
-                    <GradientStop Color="#EEE" Offset="1.0"/>
-                </GradientStopCollection>
-            </GradientBrush.GradientStops>
-        </LinearGradientBrush>
-
-        <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
-            <GradientBrush.GradientStops>
-                <GradientStopCollection>
-                    <GradientStop Color="#FFF" Offset="0.0"/>
-                    <GradientStop Color="#AAA" Offset="1.0"/>
+                    <GradientStop Color="#2b5952" Offset="0.0"/>
+                    <GradientStop Color="#36756d" Offset="1.0"/>
                 </GradientStopCollection>
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
@@ -73,17 +47,15 @@
         <LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
-                    <GradientStop Color="#BBB" Offset="0.0"/>
-                    <GradientStop Color="#EEE" Offset="0.1"/>
-                    <GradientStop Color="#EEE" Offset="0.9"/>
-                    <GradientStop Color="#FFF" Offset="1.0"/>
+                    <GradientStop Color="#2b5952" Offset="0.0"/>
+                    <GradientStop Color="#22b99f" Offset="1.0"/>
                 </GradientStopCollection>
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
         <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
 
-        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#d1d1d1" />
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#000" />
 
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1b2629" />
 
@@ -99,15 +71,100 @@
 
         <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
 
-        <SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" />
-
         <!-- Miscellaneous Brushes -->
-        <SolidColorBrush x:Key="GlyphBrush" Color="White" />
-
-        <SolidColorBrush x:Key="LightColorBrush" Color="#DDD" />
-
         <SolidColorBrush x:Key="DefaultText" Color="#eeeeee" />
 
+        <!-- Scroll Bar -->
+        <sys:Double x:Key="ScrollBarSize">5</sys:Double>
+        <sys:Double x:Key="ScrollBarMarginSize">5</sys:Double>
+        <SolidColorBrush x:Key="ScrollBarColorBrush" Color="#0f1313" />
+        <SolidColorBrush x:Key="ScrollBarBorderBrush" Color="#0f1313" />
+        <SolidColorBrush x:Key="ScrollBarTrackBrush" Color="#33ffffff" />
+
+        <Style x:Key="ScrollBarTrackStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border CornerRadius="2" Background="{StaticResource ScrollBarColorBrush}" BorderBrush="{StaticResource ScrollBarBorderBrush}" BorderThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CustomScrollBarStyle" TargetType="{x:Type ScrollBar}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="{StaticResource ScrollBarSize}"/>
+                    <Setter Property="Height" Value="Auto" />
+                    <Setter Property="Margin">
+                        <Setter.Value>
+                            <Thickness Left="0" Top="{StaticResource ScrollBarMarginSize}" Right="{StaticResource ScrollBarMarginSize}" Bottom="{StaticResource ScrollBarMarginSize}" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Border Grid.RowSpan="3" CornerRadius="2" BorderThickness="2" Width="{StaticResource ScrollBarSize}" Background="{StaticResource ScrollBarTrackBrush}" />
+                                    <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource ScrollBarTrackStyle}"  Command="ScrollBar.PageUpCommand" />
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ScrollBarThumbStyle}"  Margin="0,1,0,1"/>
+                                        </Track.Thumb>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource ScrollBarTrackStyle}" Command="ScrollBar.PageDownCommand" />
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CustomScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ScrollContentPresenter Grid.Column="0" Grid.Row="0">
+                                <ScrollContentPresenter.Margin>
+                                    <Thickness Left="{StaticResource ScrollBarMarginSize}" Top="{StaticResource ScrollBarMarginSize}" Right="{StaticResource ScrollBarMarginSize}" Bottom="{StaticResource ScrollBarMarginSize}" />
+                                </ScrollContentPresenter.Margin>
+                            </ScrollContentPresenter>
+                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0" Orientation="Vertical" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Style="{StaticResource CustomScrollBarStyle}"/>
+                            <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Style="{StaticResource CustomScrollBarStyle}"/>
+                            <Border Grid.Column="1" Grid.Row="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!-- Combo Box -->
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -116,11 +173,11 @@
                 </Grid.ColumnDefinitions>
                 <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="2" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1" />
                 <Border  Grid.Column="0" CornerRadius="2,0,0,2"  Margin="1"  Background="{StaticResource EditableControlBackgroundBrush}"  BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="0,0,1,0" />
-                <Path  x:Name="Arrow" Grid.Column="1"      Fill="{StaticResource GlyphBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                <Path  x:Name="Arrow" Grid.Column="1"      Fill="{StaticResource DefaultText}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                    <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
+                    <Setter TargetName="Border" Property="Background" Value="{StaticResource MouseOverBrush}" />
                 </Trigger>
                 <Trigger Property="ToggleButton.IsChecked" Value="true">
                     <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
@@ -156,8 +213,8 @@
                             <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}"  Template="{StaticResource ComboBoxTextBox}"  HorizontalAlignment="Center"  VerticalAlignment="Center"  Margin="3,3,23,3" Focusable="True"  Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
                             <Popup  Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
                                 <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border  x:Name="DropDownBorder" Background="{StaticResource WindowBackgroundBrush}" BorderThickness="1" BorderBrush="{StaticResource SolidBorderBrush}"/>
-                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <Border  x:Name="DropDownBorder" Background="{StaticResource EditableControlBackgroundBrush}" BorderThickness="1" BorderBrush="{StaticResource NormalBrush}"/>
+                                    <ScrollViewer Style="{StaticResource CustomScrollViewerStyle}" Margin="4,6,4,6" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Grid>
@@ -190,6 +247,52 @@
             </Style.Triggers>
         </Style>
 
+        <!-- TextBox Style -->
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
+        <Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                        <Condition Property="IsSelectionActive" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
 
     </Window.Resources>
 
@@ -207,10 +310,10 @@
         <!-- API Key-->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
             <TextBlock Text="DeepL API Key" VerticalAlignment="Center" Foreground="{StaticResource DefaultText}"/>
-            <TextBox Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,0,0,0" IsEnabled="{Binding IsServerRunning, Converter={StaticResource InverseBooleanConverter}}"
+            <TextBox Style="{DynamicResource RoundTextBox}" Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,0,0,0" IsEnabled="{Binding IsServerRunning, Converter={StaticResource InverseBooleanConverter}}"
                      Background="{StaticResource EditableControlBackgroundBrush}" Foreground="{StaticResource DefaultText}" BorderBrush="{StaticResource NormalBorderBrush}"
             />
-            <!--Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/-->
+                <!--Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/-->
         </StackPanel>
 
         <!-- Language Selection -->
@@ -227,12 +330,14 @@
 
         <!-- Status Log -->
         <TextBox Text="{Binding LogText}" 
+                 Style="{StaticResource RoundTextBox}"
                  Height="200" 
                  Margin="0,10,0,0" 
                  AcceptsReturn="True" 
                  Foreground="{StaticResource DefaultText}"
                  Background="{StaticResource EditableControlBackgroundBrush}"
                  Focusable="False"
+                 IsHitTestVisible="False"
                  VerticalScrollBarVisibility="Auto"/>
     </StackPanel>
 </Window>
