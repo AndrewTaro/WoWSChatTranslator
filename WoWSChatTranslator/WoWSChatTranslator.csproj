@@ -6,13 +6,22 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>watcat.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon\AppIcon.ico</ApplicationIcon>
 	<PublishSingleFile>true</PublishSingleFile>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="watcat.ico" />
+    <None Remove="Resources\Gui\ButtonClose.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Icon\AppIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Gui\ButtonClose.png" />
+    <Resource Include="Resources\Icon\AppIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

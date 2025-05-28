@@ -10,7 +10,7 @@
         xmlns:help="clr-namespace:WoWSChatTranslator.Helpers"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        WindowStyle="ToolWindow"
+        WindowStyle="None"
         ResizeMode="NoResize"
         Title="WoWS Chat Translator" Height="400" Width="600">
     <Window.DataContext>
@@ -57,6 +57,8 @@
         <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#000" />
 
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1b2629" />
+
+        <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#305d57"/>
 
         <SolidColorBrush x:Key="EditableControlBackgroundBrush" Color="#283c3e"/>
 
@@ -387,6 +389,66 @@
             </Setter>
         </Style>
 
+        <!-- Close Button -->
+        <SolidColorBrush x:Key="CloseButtonBackground" Color="red"/>
+        <SolidColorBrush x:Key="MouseOverCloseButtonBackground" Color="OrangeRed"/>
+        <SolidColorBrush x:Key="PressedCloseButtonBackground" Color="DarkRed"/>
+        <Style x:Key="FocusVisual1">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background1" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border1" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background1" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border1" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background1" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border1" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background1" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border1" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground1" Color="#FF838383"/>
+        <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual1}"/>
+            <Setter Property="Background" Value="{StaticResource CloseButtonBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border1}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource MouseOverCloseButtonBackground}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border1}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource PressedCloseButtonBackground}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border1}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background1}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border1}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground1}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
 
     </Window.Resources>
 
@@ -394,48 +456,78 @@
         <StaticResource ResourceKey="WindowBackgroundBrush"/>
     </Window.Background>
 
-    <StackPanel Margin="10">
-        <!-- Title -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="WoWS Chat Translator" FontSize="20" FontWeight="Bold" Margin="0,0,0,0" Foreground="{StaticResource DefaultText}"/>
-            <!--Image Source="/WoWSChatTranslator;component/Resources/Images/logo.png" Height="30"/-->
+    <Border CornerRadius="1" BorderThickness="1" BorderBrush="{StaticResource SolidBorderBrush}" Background="{StaticResource WindowBackgroundBrush}">
+
+        <StackPanel>
+
+            <!-- Title Bar -->
+            <Grid Background="{StaticResource TitleBarBackgroundBrush}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:CallMethodAction MethodName="DragMove"
+                            TargetObject="{Binding RelativeSource={RelativeSource
+                            Mode=FindAncestor,
+                            AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <!-- Title -->
+                <StackPanel HorizontalAlignment="Center" Margin="0,3,0,3">
+                    <TextBlock Text="WoWS Chat Translator" FontSize="20" FontWeight="Bold" Foreground="{StaticResource DefaultText}"/>
+                </StackPanel>
+
+                <!-- Close Button -->
+                <Button Style="{DynamicResource CloseButton}" Width="30" Height="20" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Image Source="/WoWSChatTranslator;component/Resources/Gui/ButtonClose.png" Width="12" Height="12"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:CallMethodAction MethodName="Close"
+                               TargetObject="{Binding RelativeSource={RelativeSource
+                                                      Mode=FindAncestor,
+                                                      AncestorType=Window}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </Grid>
+
+            <StackPanel Margin="10">
+
+                <!-- API Key-->
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBlock Text="DeepL API Key" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,3" Foreground="{StaticResource DefaultText}"/>
+                    <TextBox Style="{DynamicResource RoundTextBox}" Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,0,0,0" IsEnabled="{Binding IsServerRunning, Converter={StaticResource InverseBooleanConverter}}"
+                             Background="{StaticResource EditableControlBackgroundBrush}" Foreground="{StaticResource DefaultText}" BorderBrush="{StaticResource NormalBorderBrush}"
+                    />
+                    <!--Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/-->
+                </StackPanel>
+
+                <!-- Language Selection -->
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <TextBlock Text="Translate to" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource DefaultText}"/>
+                    <ComboBox ItemsSource="{Binding AvailableLanguageCodes}" SelectedValue="{Binding TargetLangCode}"
+                        Foreground="{StaticResource DefaultText}" Style="{StaticResource ComboBoxLanguage}" Background="{StaticResource WindowBackgroundBrush}"
+                        HorizontalContentAlignment="Center" SelectedValuePath="Code" DisplayMemberPath="Name" VerticalAlignment="Center" Height="25" Width="200" Margin="20,0,0,0"
+                    />
+                </StackPanel>
+
+                <!-- Control Button -->
+                <Button Style="{DynamicResource ControlButton}" Content="{Binding ControlButtonName}" Command="{Binding ControlCommand}"
+                        TabIndex="0" IsDefault="True" Height="30" Margin="0,10,0,0" FontWeight="Bold" IsEnabled="{Binding IsControlButtonEnabled}"
+                        Foreground="{StaticResource DefaultText}"
+                        Background="{StaticResource ControlButtonBrush}"
+                />
+
+                <!-- Status Log -->
+                <TextBox Text="{Binding LogText}" 
+                         Style="{StaticResource RoundTextBox}"
+                         Height="195" 
+                         Margin="0,10,0,0" 
+                         AcceptsReturn="True" 
+                         Foreground="{StaticResource DefaultText}"
+                         Background="{StaticResource EditableControlBackgroundBrush}"
+                         Focusable="False"
+                         IsHitTestVisible="False"
+                         VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
         </StackPanel>
-
-        <!-- API Key-->
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <TextBlock Text="DeepL API Key" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,3" Foreground="{StaticResource DefaultText}"/>
-            <TextBox Style="{DynamicResource RoundTextBox}" Text="{Binding ApiKey}" Height="25" Width="300px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,0,0,0" IsEnabled="{Binding IsServerRunning, Converter={StaticResource InverseBooleanConverter}}"
-                     Background="{StaticResource EditableControlBackgroundBrush}" Foreground="{StaticResource DefaultText}" BorderBrush="{StaticResource NormalBorderBrush}"
-            />
-                <!--Button Content="Validate and Save" Command="{Binding SaveApiKeyCommand}" VerticalAlignment="Center" Height="25"/-->
-        </StackPanel>
-
-        <!-- Language Selection -->
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <TextBlock Text="Translate to" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource DefaultText}"/>
-            <ComboBox ItemsSource="{Binding AvailableLanguageCodes}" SelectedValue="{Binding TargetLangCode}"
-                Foreground="{StaticResource DefaultText}" Style="{StaticResource ComboBoxLanguage}" Background="{StaticResource WindowBackgroundBrush}"
-                HorizontalContentAlignment="Center" SelectedValuePath="Code" DisplayMemberPath="Name" VerticalAlignment="Center" Height="25" Width="200" Margin="20,0,0,0"
-            />
-        </StackPanel>
-
-        <!-- Control Button -->
-        <Button Style="{DynamicResource ControlButton}" Content="{Binding ControlButtonName}" Command="{Binding ControlCommand}"
-                TabIndex="0" IsDefault="True" Height="30" Margin="0,10,0,0" FontWeight="Bold" IsEnabled="{Binding IsControlButtonEnabled}"
-                Foreground="{StaticResource DefaultText}"
-                Background="{StaticResource ControlButtonBrush}"
-        />
-
-        <!-- Status Log -->
-        <TextBox Text="{Binding LogText}" 
-                 Style="{StaticResource RoundTextBox}"
-                 Height="180" 
-                 Margin="0,10,0,0" 
-                 AcceptsReturn="True" 
-                 Foreground="{StaticResource DefaultText}"
-                 Background="{StaticResource EditableControlBackgroundBrush}"
-                 Focusable="False"
-                 IsHitTestVisible="False"
-                 VerticalScrollBarVisibility="Auto"/>
-    </StackPanel>
+    </Border>
 </Window>
