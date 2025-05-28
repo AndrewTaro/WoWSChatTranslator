@@ -28,6 +28,8 @@ namespace WoWSChatTranslator.Models
             _translator = translator;
             _settings = settings;
             _log = log;
+
+            Log($"Listen to {settings.TargetUrl}");
         }
 
         public async Task StartAsync()
