@@ -25,7 +25,7 @@ jobs:
         id: upload
         shell: pwsh
         run: |
-          $exePath = Get-ChildItem -Recurse -Filter WoWSChatTranslator.exe | Select-Object -First 1 | % { $_.FullName }
+          $exePath = Get-ChildItem -Path WoWSChatTranslator\bin\Release\net8.0-windows\win-x64\publish -Recurse -Filter WoWSChatTranslator.exe | Select-Object -First 1 | % { $_.FullName }
           "FILE_PATH=$exePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Create GitHub Release
