@@ -529,7 +529,18 @@
                          IsReadOnly="True"
                          IsTabStop="False"
                          BorderThickness="0"
-                         VerticalScrollBarVisibility="Auto"/>
+                         VerticalScrollBarVisibility="Auto">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:CallMethodAction MethodName="ScrollToEnd"
+                                TargetObject="{Binding RelativeSource={RelativeSource
+                                Mode=TemplatedParent}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBox.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBarStyle}"/>
+                    </TextBox.Resources>
+                </TextBox>
             </StackPanel>
         </StackPanel>
     </Border>
