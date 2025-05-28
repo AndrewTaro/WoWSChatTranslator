@@ -77,7 +77,7 @@ namespace WoWSChatTranslator.Models
             string? translated = null;
             if (request.QueryString["text"] is string text && !string.IsNullOrWhiteSpace(text))
             {
-                Log($"Received: {text}");
+                Log($"Received: \"{text}\"");
                 translated = await _translator.TranslateAsync(text, _settings.TargetLangCode);
                 if (string.IsNullOrEmpty(translated) || translated == text)
                 {
@@ -86,7 +86,7 @@ namespace WoWSChatTranslator.Models
                 }
                 else
                 {
-                    Log($"Translated: {translated}");
+                    Log($"Translated: \"{translated}\"");
                 }
             }
 

@@ -521,11 +521,14 @@
                          Style="{StaticResource RoundTextBox}"
                          Height="195" 
                          Margin="0,10,0,0" 
+                         Padding="5"
                          AcceptsReturn="True" 
+                         TextWrapping="Wrap"
                          Foreground="{StaticResource DefaultText}"
                          Background="{StaticResource EditableControlBackgroundBrush}"
-                         Focusable="False"
-                         IsHitTestVisible="False"
+                         IsReadOnly="True"
+                         IsTabStop="False"
+                         BorderThickness="0"
                          VerticalScrollBarVisibility="Auto"/>
             </StackPanel>
         </StackPanel>

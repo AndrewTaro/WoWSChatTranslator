@@ -111,7 +111,7 @@ namespace WoWSChatTranslator.ViewModels
             {
                 case DeepLClientState.Initialized:
                     logText = StatusCode.Initialized;
-                    _server = new HttpServer(Translator, Settings);
+                    _server = new HttpServer(Translator, Settings, Log);
                     _ = _server.StartAsync();
                     Log("Status: Server started.");
 

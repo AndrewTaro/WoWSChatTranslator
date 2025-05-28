@@ -21,7 +21,7 @@ namespace WoWSChatTranslator.Models
             LanguageCode.English,
         };
 
-        public DeepLClientState ClientState {  get; private set; }
+        public DeepLClientState ClientState { get; private set; }
 
         public static List<LanguageOption> AvailableLanguageCodes { get; private set; } = InitializeAvailableLanguageOptions();
 
@@ -63,11 +63,11 @@ namespace WoWSChatTranslator.Models
             if (ClientState != DeepLClientState.Initialized || _translator == null)
                 return null;
             var result = await _translator.TranslateTextAsync(text, null, targetLangCode, _translateOptions);
-            if (result.Text == text)
+            if (result.Text == text || result.DetectedSourceLanguageCode == targetLangCode)
             {
                 return null;
             }
-            return result.Text;
+            return $"({result.DetectedSourceLanguageCode.ToUpper()}) {result.Text}";
         }
 
         private static List<LanguageOption> InitializeAvailableLanguageOptions()
