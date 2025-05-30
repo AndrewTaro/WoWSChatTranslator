@@ -1,6 +1,6 @@
 # WoWS Chat Translator
 This application imports the chat messages from World of Warships, and sends back the translated texts.  
-It is intended to work with [TTaro Chat](https://github.com/AndrewTaro/TTaroChat).
+Although it is intended to work with [TTaro Chat](https://github.com/AndrewTaro/TTaroChat), this app is NOT a modification of the game and is an external, self-contained application.
 
 - The settings, such as selected language, API key, etc, will be automatically saved in your local computer.
   - The API key is stored in Windows Credential Manager.
