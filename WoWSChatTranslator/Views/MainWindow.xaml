@@ -448,6 +448,48 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <!-- Minimize Button -->
+        <SolidColorBrush x:Key="MinimizeButtonBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="MouseOverMinimizeButtonBackground" Color="LightGray"/>
+        <SolidColorBrush x:Key="PressedMinimizeButtonBackground" Color="Gray"/>
+        <Style x:Key="MinimizeButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual1}"/>
+            <Setter Property="Background" Value="{StaticResource MinimizeButtonBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border1}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource MouseOverMinimizeButtonBackground}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border1}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource PressedMinimizeButtonBackground}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border1}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background1}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border1}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground1}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
     </Window.Resources>
@@ -463,7 +505,7 @@
             <!-- Title Bar -->
             <Grid Background="{StaticResource TitleBarBackgroundBrush}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDown">
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
                         <i:CallMethodAction MethodName="DragMove"
                             TargetObject="{Binding RelativeSource={RelativeSource
                             Mode=FindAncestor,
@@ -487,6 +529,22 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
+
+                <!-- Minimize Button -->
+                <!--Button Style="{DynamicResource CloseButton}" Width="30" Height="20" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Image Source="/WoWSChatTranslator;component/Resources/Gui/ButtonClose.png" Width="12" Height="12"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MinimizeButton">
+                            <i:ChangePropertyAction
+                                    TargetObject="{Binding RelativeSource={RelativeSource
+                                    Mode=FindAncestor,
+                                    AncestorType=Window}}"
+                                    PropertyName="WindowState"
+                                    Value="WindowState."
+                            />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button-->
             </Grid>
 
             <StackPanel Margin="10">
